@@ -1,0 +1,16 @@
+{
+  "gpu": "rtx6000_bw",
+  "model": "openai/gpt-oss-120b",
+  "precision": "mxfp4_native",
+  "tp": 1,
+  "max_model_len": 8192,
+  "prefill_tok_s": 167.4,
+  "decode_bs1_tok_s": 172.1,
+  "decode_bs8_tok_s": 618.7,
+  "decode_bs32_tok_s": 1088.2,
+  "ttft_p512_ms": 27.5,
+  "ttft_p4096_ms": 220.8,
+  "agentic_10step_ms": 8211.4,
+  "vram_model_loaded_gb": 91.7,
+  "vram_4k_ctx_bs1_gb": 91.7
+}

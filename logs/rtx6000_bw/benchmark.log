@@ -1,0 +1,75 @@
+[2026-03-25 11:05:16] ========================================================
+[2026-03-25 11:05:16]  GPT-OSS 120B Benchmark — RTX Pro 6000 Blackwell
+[2026-03-25 11:05:16]  Model: openai/gpt-oss-120b  |  Precision: MXFP4 native
+[2026-03-25 11:05:16]  VRAM: 96 GB GDDR7 — fits model with ~38 GB KV headroom
+[2026-03-25 11:05:16] ========================================================
+[2026-03-25 11:05:16] --- System info ---
+[2026-03-25 11:05:22] System info saved: ./logs/rtx6000_bw/system.log
+[2026-03-25 11:05:22] --- Starting vLLM server ---
+[2026-03-25 11:05:22]   RTX Pro 6000: 96 GB GDDR7, PCIe Gen5, no NVLink
+[2026-03-25 11:05:22]   No --quantization flag: MXFP4 detected automatically
+[2026-03-25 11:05:22]   RTX 6000: gpu-util=0.95, PyTorch fragmentation fix enabled
+[2026-03-25 11:05:22] Server PID: 4503  |  Log: ./logs/rtx6000_bw/server.log
+[2026-03-25 11:05:22] Waiting for server (first run downloads ~60 GB — may take 20-30 min)...
+[2026-03-25 11:06:17] Still waiting (60s)... (EngineCore_DP0 pid=4743) <frozen importlib._bootstrap_external>:1301: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.
+[2026-03-25 11:07:17] Still waiting (120s)... (EngineCore_DP0 pid=4743) <frozen importlib._bootstrap_external>:1301: FutureWarning: The cuda.nvrtc module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.nvrtc module instead.
+[2026-03-25 11:08:18] Still waiting (180s)... (EngineCore_DP0 pid=4743) INFO 03-25 11:08:14 [gpu_model_runner.py:4364] Model loading took 65.93 GiB memory and 154.466843 seconds
+[2026-03-25 11:09:18] Server ready after 240s
+[2026-03-25 11:09:18] --- VRAM after model load ---
+[2026-03-25 11:09:18] ========================================================
+[2026-03-25 11:09:18]  Running benchmark suite
+[2026-03-25 11:09:18] ========================================================
+[2026-03-25 11:09:18]   Running: prefill_bs1_p512 (input=512 out=256 prompts=100 conc=1)
+  tok/s=167.4  ttft=70.5ms  tpot=5.7ms  e2e=1528.0ms
+[2026-03-25 11:11:59]   Running: decode_bs1 (input=512 out=256 prompts=100 conc=1)
+  tok/s=172.1  ttft=28.1ms  tpot=5.7ms  e2e=1487.4ms
+[2026-03-25 11:14:36]   Running: decode_bs8 (input=512 out=256 prompts=100 conc=8)
+  tok/s=618.7  ttft=59.0ms  tpot=12.4ms  e2e=3209.5ms
+[2026-03-25 11:15:25]   Running: decode_bs32 (input=512 out=256 prompts=50 conc=32)
+  tok/s=1088.2  ttft=133.7ms  tpot=22.6ms  e2e=5900.5ms
+[2026-03-25 11:15:45]   Running: ttft_p512 (input=512 out=32 prompts=100 conc=1)
+  tok/s=155.2  ttft=27.5ms  tpot=5.7ms  e2e=205.5ms
+[2026-03-25 11:16:14]   Running: ttft_p4096 (input=4096 out=32 prompts=30 conc=1)
+  tok/s=80.3  ttft=220.8ms  tpot=5.7ms  e2e=397.9ms
+[2026-03-25 11:16:35]   Running: vram_4k_bs1 (input=4096 out=256 prompts=20 conc=1)
+  tok/s=160.3  ttft=53.4ms  tpot=6.1ms  e2e=1596.5ms
+[2026-03-25 11:17:15] --- VRAM during 4K context run ---
+[2026-03-25 11:17:15] --- 10-step agentic loop (growing context, bs=1) ---
+[2026-03-25 11:17:15]   Running: agentic_s1_ctx1012 (input=1012 out=128 prompts=10 conc=1)
+  tok/s=164.9  ttft=32.0ms  tpot=5.9ms  e2e=775.5ms
+[2026-03-25 11:17:31]   step=1 ctx=1012  e2e=775.5ms  running_total=775.5ms
+[2026-03-25 11:17:31]   Running: agentic_s2_ctx1512 (input=1512 out=128 prompts=10 conc=1)
+  tok/s=162.7  ttft=35.8ms  tpot=5.9ms  e2e=786.4ms
+[2026-03-25 11:17:47]   step=2 ctx=1512  e2e=786.4ms  running_total=1561.9ms
+[2026-03-25 11:17:47]   Running: agentic_s3_ctx2012 (input=2012 out=128 prompts=10 conc=1)
+  tok/s=160.8  ttft=41.4ms  tpot=5.9ms  e2e=795.5ms
+[2026-03-25 11:18:03]   step=3 ctx=2012  e2e=795.5ms  running_total=2357.4ms
+[2026-03-25 11:18:03]   Running: agentic_s4_ctx2512 (input=2512 out=128 prompts=10 conc=1)
+  tok/s=158.8  ttft=42.4ms  tpot=6.0ms  e2e=805.4ms
+[2026-03-25 11:18:19]   step=4 ctx=2512  e2e=805.4ms  running_total=3162.8ms
+[2026-03-25 11:18:19]   Running: agentic_s5_ctx3012 (input=3012 out=128 prompts=10 conc=1)
+  tok/s=157.5  ttft=44.5ms  tpot=6.0ms  e2e=812.0ms
+[2026-03-25 11:18:36]   step=5 ctx=3012  e2e=812.0ms  running_total=3974.8ms
+[2026-03-25 11:18:36]   Running: agentic_s6_ctx3512 (input=3512 out=128 prompts=10 conc=1)
+  tok/s=156.4  ttft=48.5ms  tpot=6.1ms  e2e=817.5ms
+[2026-03-25 11:18:52]   step=6 ctx=3512  e2e=817.5ms  running_total=4792.3ms
+[2026-03-25 11:18:52]   Running: agentic_s7_ctx4012 (input=4012 out=128 prompts=10 conc=1)
+  tok/s=155.7  ttft=50.1ms  tpot=6.1ms  e2e=821.4ms
+[2026-03-25 11:19:08]   step=7 ctx=4012  e2e=821.4ms  running_total=5613.7ms
+[2026-03-25 11:19:08]   Running: agentic_s8_ctx4512 (input=4512 out=128 prompts=10 conc=1)
+  tok/s=149.5  ttft=83.8ms  tpot=6.1ms  e2e=855.7ms
+[2026-03-25 11:19:25]   step=8 ctx=4512  e2e=855.7ms  running_total=6469.4ms
+[2026-03-25 11:19:25]   Running: agentic_s9_ctx5012 (input=5012 out=128 prompts=10 conc=1)
+  tok/s=147.8  ttft=89.5ms  tpot=6.1ms  e2e=865.5ms
+[2026-03-25 11:19:42]   step=9 ctx=5012  e2e=865.5ms  running_total=7334.9ms
+[2026-03-25 11:19:42]   Running: agentic_s10_ctx5512 (input=5512 out=128 prompts=10 conc=1)
+  tok/s=145.9  ttft=95.7ms  tpot=6.1ms  e2e=876.5ms
+[2026-03-25 11:19:59]   step=10 ctx=5512  e2e=876.5ms  running_total=8211.4ms
+[2026-03-25 11:19:59] 10-step total: 8211.4ms = 8.21s
+[2026-03-25 11:19:59] --- Building summary JSON ---
+[2026-03-25 11:19:59] --- Stopping server ---
+[2026-03-25 11:20:01] ========================================================
+[2026-03-25 11:20:01]  Done. Outputs:
+[2026-03-25 11:20:01]    Logs:    ./logs/rtx6000_bw/
+[2026-03-25 11:20:01]    Results: ./results/rtx6000_bw.json
+[2026-03-25 11:20:01] ========================================================

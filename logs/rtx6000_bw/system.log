@@ -1,0 +1,51 @@
+=== Date ===
+Wed Mar 25 11:05:16 UTC 2026
+
+=== Python / vLLM ===
+vLLM: 0.17.1
+PyTorch: 2.10.0+cu129
+CUDA devices: 1
+
+=== nvidia-smi ===
+Wed Mar 25 11:05:22 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:BC:00.0 Off |                    0 |
+| N/A   27C    P8             33W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=== GPU properties ===
+name, memory.total [MiB], memory.free [MiB], driver_version, compute_cap
+NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 97251 MiB, 580.95.05, 12.0
+
+=== CPU / RAM ===
+CPU(s):                               256
+On-line CPU(s) list:                  0-255
+Model name:                           Intel(R) Xeon(R) 6767P
+Thread(s) per core:                   2
+Socket(s):                            2
+NUMA node0 CPU(s):                    0-31,128-159
+NUMA node1 CPU(s):                    32-63,160-191
+NUMA node2 CPU(s):                    64-95,192-223
+NUMA node3 CPU(s):                    96-127,224-255
+               total        used        free      shared  buff/cache   available
+Mem:           1.0Ti       419Gi       268Gi        17Gi       319Gi       565Gi
+Swap:          8.0Gi       8.0Gi       0.0Ki
+
+=== Disk ===
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         185G   16G  170G   9% /
