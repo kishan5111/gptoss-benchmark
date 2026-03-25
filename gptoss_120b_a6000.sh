@@ -118,10 +118,11 @@ run_bench() {
 
     log "  Running: $TAG (input=$INPUT out=$OUTPUT prompts=$PROMPTS conc=$CONCURRENCY)"
 
-    python -m vllm.entrypoints.benchmark_serving \
+    vllm bench serve \
         --backend openai \
-        --host "$HOST" --port "$PORT" \
+        --base-url "http://$HOST:$PORT" \
         --model "$MODEL" \
+        --endpoint /v1/completions \
         --dataset-name random \
         --random-input-len "$INPUT" \
         --random-output-len "$OUTPUT" \
