@@ -19,7 +19,7 @@ TP=1
 HOST="127.0.0.1"
 PORT=8000
 MAX_LEN=8192
-GPU_UTIL=0.95
+GPU_UTIL=0.92
 
 LOGS_DIR="./logs/${GPU_NAME}"
 RESULTS_DIR="./results"
@@ -73,7 +73,7 @@ log "System info saved: $SYSTEM_LOG"
 # ── START vLLM SERVER ─────────────────────────────────────────────────────────
 log "--- Starting vLLM server ---"
 log "  No --quantization flag: MXFP4 detected automatically from model config"
-log "  H100 memory optimizations: gpu-util=0.95, kv-cache-dtype=fp8, PyTorch fragmentation fix"
+log "  H100: gpu-util=0.95 for 80GB VRAM, PyTorch fragmentation fix enabled"
 
 # Fix PyTorch memory fragmentation
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
@@ -83,7 +83,7 @@ vllm serve "$MODEL" \
     --max-model-len "$MAX_LEN" \
     --gpu-memory-utilization "$GPU_UTIL" \
     --enable-chunked-prefill \
-    --kv-cache-dtype fp8 \
+    --kv-cache-dtype auto \
     --port "$PORT" \
     --host "$HOST" \
     >> "$SERVER_LOG" 2>&1 &

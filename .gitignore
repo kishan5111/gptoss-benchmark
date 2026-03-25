@@ -16,3 +16,4 @@ __pycache__/
 *.pt
 *.pth
 *.gguf
+.claude
