@@ -18,8 +18,8 @@ MODEL="openai/gpt-oss-120b"
 TP=1
 HOST="127.0.0.1"
 PORT=8000
-MAX_LEN=8192
-GPU_UTIL=0.90
+MAX_LEN=6144
+GPU_UTIL=0.95
 
 LOGS_DIR="./logs/${GPU_NAME}"
 RESULTS_DIR="./results"
@@ -73,6 +73,10 @@ log "System info saved: $SYSTEM_LOG"
 # ── START vLLM SERVER ─────────────────────────────────────────────────────────
 log "--- Starting vLLM server ---"
 log "  No --quantization flag: MXFP4 detected automatically from model config"
+log "  H100: Reduced max-model-len to 6144 and gpu-util to 0.95 for 80GB VRAM"
+
+# Fix PyTorch memory fragmentation
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 vllm serve "$MODEL" \
     --tensor-parallel-size "$TP" \
