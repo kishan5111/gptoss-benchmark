@@ -81,7 +81,6 @@ vllm serve "$MODEL" \
     --gpu-memory-utilization "$GPU_UTIL" \
     --enable-chunked-prefill \
     --kv-cache-dtype auto \
-    --disable-log-requests \
     --port "$PORT" \
     --host "$HOST" \
     >> "$SERVER_LOG" 2>&1 &
