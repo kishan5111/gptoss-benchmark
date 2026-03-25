@@ -19,7 +19,7 @@ TP=1
 HOST="127.0.0.1"
 PORT=8000
 MAX_LEN=8192
-GPU_UTIL=0.90
+GPU_UTIL=0.95
 
 LOGS_DIR="./logs/${GPU_NAME}"
 RESULTS_DIR="./results"
@@ -74,6 +74,10 @@ log "System info saved: $SYSTEM_LOG"
 log "--- Starting vLLM server ---"
 log "  RTX Pro 6000: 96 GB GDDR7, PCIe Gen5, no NVLink"
 log "  No --quantization flag: MXFP4 detected automatically"
+log "  RTX 6000: gpu-util=0.95, PyTorch fragmentation fix enabled"
+
+# Fix PyTorch memory fragmentation
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 vllm serve "$MODEL" \
     --tensor-parallel-size "$TP" \
