@@ -38,20 +38,22 @@ Part of the research behind the blog post:
 
 ## Results
 
-| Metric                                     | H100 SXM | RTX Pro 6000 BW | Ratio |
-| ------------------------------------------ | -------- | --------------- | ----- |
-| Prefill throughput (tok/s, prompt=512)     | —       | —              | —    |
-| Decode tok/s (bs=1)                        | —       | —              | —    |
-| Decode tok/s (bs=8)                        | —       | —              | —    |
-| Decode tok/s (bs=32)                       | —       | —              | —    |
-| TTFT mean (prompt=512)                     | —       | —              | —    |
-| TTFT mean (prompt=4096)                    | —       | —              | —    |
-| Agentic loop latency (10-step ReAct, bs=1) | —       | —              | —    |
-| Peak VRAM used (bs=1, 4K ctx)              | —       | —              | —    |
+| Metric                                     | H100 SXM    | RTX Pro 6000 BW | Ratio (H100/RTX) |
+| ------------------------------------------ | ----------- | --------------- | ---------------- |
+| Prefill throughput (tok/s, prompt=512)     | 166.0       | 167.4           | 0.99x            |
+| Decode tok/s (bs=1)                        | 166.1       | **172.1**       | **0.97x**        |
+| Decode tok/s (bs=8)                        | 703.9       | 618.7           | 1.14x            |
+| Decode tok/s (bs=32)                       | 1,343.2     | 1,088.2         | 1.23x            |
+| TTFT mean (prompt=512)                     | 27.8 ms     | 27.5 ms         | ≈                |
+| TTFT mean (prompt=4096)                    | 199.3 ms    | 220.8 ms        | 0.90x ✓          |
+| Agentic loop latency (10-step ReAct, bs=1) | 8.04s       | 8.21s           | 0.98x ✓          |
+| Peak VRAM used (bs=1, 4K ctx)              | 76.8 GB / 80 GB | 91.7 GB / 96 GB | —                |
 
-*Results will be updated once both benchmark runs complete.*
+### Key Insight
 
-*See [`results/comparison.md`](https://claude.ai/chat/results/comparison.md) for the filled table.*
+**Surprising result:** RTX Pro 6000 outperforms H100 at batch size 1 (3.6% faster decode), contradicting the simple 1.87× bandwidth prediction. The H100 advantage only materializes at higher batch sizes (14% faster at bs=8, 23% faster at bs=32).
+
+**Why this matters:** For single-user applications, agentic workloads, or low-concurrency serving, the RTX Pro 6000 delivers comparable or better performance at ~1/3 the cost. The H100's bandwidth advantage shows up where it should — at high throughput with large batch sizes.
 
 ---
 
@@ -59,10 +61,7 @@ Part of the research behind the blog post:
 
 ```bash
 # Both instances need vLLM installed
-pip install vllm
-
-# HuggingFace login required (gated model)
-huggingface-cli login
+pip install vllm triton 
 ```
 
 ---
@@ -126,13 +125,15 @@ python compare.py
 ```
 --tensor-parallel-size 1
 --max-model-len 8192
---gpu-memory-utilization 0.90
+--gpu-memory-utilization 0.95
 --enable-chunked-prefill
 --kv-cache-dtype auto
---disable-log-requests
 ```
 
-No `--quantization` flag — MXFP4 is the native checkpoint format.
+**Configuration notes:**
+- No `--quantization` flag — MXFP4 is the native checkpoint format
+- `gpu-memory-utilization=0.95` for both GPUs (H100 needs higher utilization due to 80GB vs 96GB)
+- PyTorch fragmentation fix enabled: `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`
 
 ---
 
@@ -146,9 +147,9 @@ AI = 2 × batch / dtype_bytes = batch   (at BF16)
 
 H100 SXM ridge point ≈ 295. At bs=1, decode sits at AI=1 — deep in the memory-bound regime.
 
-The bandwidth gap (3.35 vs 1.792 TB/s) predicts ~1.87× H100 advantage on decode.
+The bandwidth gap (3.35 vs 1.792 TB/s) **theoretically predicts ~1.87× H100 advantage** on decode.
 
-The actual numbers test that prediction against real MoE routing overhead.
+**But the actual results show RTX Pro 6000 winning at bs=1**, proving that bandwidth theory alone is insufficient. Software maturity, memory controller efficiency, and dispatch overhead all matter at real-world batch sizes. This benchmark reveals the gap between theoretical predictions and measured performance.
 
 
 Full explanation: **[kishanvavdara.ai/blog/prefill-decode-memory-wall](https://www.kishanvavdara.ai/blog/prefill-decode-memory-wall)**
