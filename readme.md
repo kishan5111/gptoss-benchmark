@@ -4,7 +4,7 @@
 
 Part of the research behind the blog post:
 
-**[Prefill, Decode, and the Memory Wall: A Deep Dive into LLM Inference]([https://www.kishanvavdara.ai/blog/prefill-decode-memory-wall](https://www.kishanvavdara.ai/blog/prefill-decode-and-the-memory-wall))**
+**[Prefill, Decode, and the Memory Wall: A Deep Dive into LLM Inference](https://www.kishanvavdara.ai/blog/prefill-decode-and-the-memory-wall)**
 
 *by Kishan Vavdara — Kaggle Competition Master, ML Engineer*
 
@@ -152,7 +152,7 @@ The bandwidth gap (3.35 vs 1.792 TB/s) **theoretically predicts ~1.87× H100 adv
 **But the actual results show RTX Pro 6000 winning at bs=1**, proving that bandwidth theory alone is insufficient. Software maturity, memory controller efficiency, and dispatch overhead all matter at real-world batch sizes. This benchmark reveals the gap between theoretical predictions and measured performance.
 
 
-Full explanation: **[kishanvavdara.ai/blog/prefill-decode-memory-wall]([https://www.kishanvavdara.ai/blog/prefill-decode-memory-wall](https://www.kishanvavdara.ai/blog/prefill-decode-and-the-memory-wall))**
+Full explanation: **[kishanvavdara.ai/blog/prefill-decode-memory-wall](https://www.kishanvavdara.ai/blog/prefill-decode-and-the-memory-wall)**
 
 ---
 
