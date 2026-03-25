@@ -150,13 +150,13 @@ log "========================================================"
 log " Running benchmark suite"
 log "========================================================"
 
-run_bench 512  256 300  1  "prefill_bs1_p512"
-run_bench 512  256 300  1  "decode_bs1"
-run_bench 512  256 300  8  "decode_bs8"
-run_bench 512  256 200  32 "decode_bs32"
-run_bench 512  32  300  1  "ttft_p512"
-run_bench 4096 32  100  1  "ttft_p4096"
-run_bench 4096 256 50   1  "vram_4k_bs1"
+run_bench 512  256 100  1  "prefill_bs1_p512"
+run_bench 512  256 100  1  "decode_bs1"
+run_bench 512  256 100  8  "decode_bs8"
+run_bench 512  256 50   32 "decode_bs32"
+run_bench 512  32  100  1  "ttft_p512"
+run_bench 4096 32  30   1  "ttft_p4096"
+run_bench 4096 256 20   1  "vram_4k_bs1"
 
 # VRAM during 4K run
 log "--- VRAM during 4K context run ---"
@@ -172,7 +172,7 @@ echo "step,input_len,e2e_ms,ttft_ms,tpot_ms" > "${LOGS_DIR}/agentic_steps.csv"
 for step in $(seq 1 10); do
     INPUT=$((512 + step * 500))
     TAG="agentic_s${step}_ctx${INPUT}"
-    run_bench "$INPUT" 128 30 1 "$TAG"
+    run_bench "$INPUT" 128 10 1 "$TAG"
 
     E2E=$(python3 -c "
 import json
